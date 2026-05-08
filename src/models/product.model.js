@@ -5,7 +5,7 @@ export default class ProductModel{
         this.name = _name;
         this.desc = _desc;
         this.price = _price;
-        this.imageUrl = _imageUrl
+        this.imageUrl = _imageUrl;
     }
     static get(){
         return products;
@@ -16,7 +16,7 @@ var products = [
     new ProductModel(
       1,
       'Product 1',
-      'Description for Product 1',
+      'Atomic H abits',
       19.99,
       'https://m.media-amazon.com/images/I/51-nXsSRfZL._SX328_BO1,204,203,200_.jpg',
     ),
