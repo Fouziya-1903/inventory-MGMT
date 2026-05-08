@@ -7,12 +7,14 @@ export default class ProductModel{
         this.price = _price;
         this.imageUrl = _imageUrl;
     }
+
     static get(){
         return products;
     }
+    
     static addProducts(productObj){
       let newProduct = new ProductModel(
-        productObj.id = products.length+1,
+        products.length +1,
         productObj.name,
         productObj.desc,
         productObj.price,
