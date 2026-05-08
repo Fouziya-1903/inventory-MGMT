@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { urlencoded } from 'express';
 import ProductController from './src/controllers/product.controller.js';
 import path from "path";
 import ejsLayouts from "express-ejs-layouts";
@@ -11,10 +11,14 @@ server.set("view engine", "ejs");
 server.set("views", path.join(path.resolve(),"src","views"));
 
 server.use(ejsLayouts);
+// We need to make sure that the data is parsed in the correct way for the products to be displayed, so we use urlencoded for that
+server.use(express.urlencoded({extended : true}));
 
 //create an instance of the class
 const productController = new ProductController();
 server.get("/", productController.getProducts);
+server.get("/new", productController.getAddForm);
+server.post("/",productController.addNewProduct);
 server.use(express.static('src/views'));
 
 // const __filename = fileURLToPath(import.meta.url);
