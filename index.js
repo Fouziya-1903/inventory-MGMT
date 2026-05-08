@@ -2,6 +2,7 @@ import express, { urlencoded } from 'express';
 import ProductController from './src/controllers/product.controller.js';
 import path from "path";
 import ejsLayouts from "express-ejs-layouts";
+import validateRequest from './src/middlewares/validation.middleware.js';
 // import { fileURLToPath } from 'url';
 
 const server = express();
@@ -19,7 +20,7 @@ const productController = new ProductController();
 server.get("/", productController.getProducts);
 server.get("/newForm", productController.getAddForm);
 server.get("/addProduct", productController.getAddProduct);
-server.post("/",productController.postAddProduct);
+server.post("/",validateRequest,productController.postAddProduct);
 server.use(express.static('src/views'));
 
 // const __filename = fileURLToPath(import.meta.url);
