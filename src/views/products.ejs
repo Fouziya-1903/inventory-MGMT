@@ -1,4 +1,4 @@
-
+<h1 class="mt-5 mb-4">Products</h1>
 <table class="table table-dark">
     <thead>
         <tr>
@@ -14,15 +14,18 @@
         <!-- The loop is used to take the input and then display the table of the content -->
         <% products.forEach(product =>{ %>
             <tr>
-            <th scope="row"><%=product.id %></th>
+            <th scope="row">
+                <%=product.id %>
+            </th>
             <td><%=product.name %></td>
             <td><%=product.desc %> </td>
             <td><%=product.price %></td>
             <td>
-                <img src="<%=product.imageUrl %>" style = "width: : 50px"/>
+                <img src="<%=product.imageUrl %>" style = "max-width: : 50px"/>
             </td>
             <td>
                 <a href = "/update-product/<%=product.id %>" class = "btn btn-warning">Update</a>
+                <a href = "/delete-product/<%=product.id %>" class = "btn btn-danger">Delete</a>
             </td>
             </tr>
         <% }) %>     

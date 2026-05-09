@@ -8,21 +8,16 @@ export default class ProductController{
         // return res.sendFile(path.join(path.resolve(), "src", "views", "products.ejs"));
     }
 
-    getAddForm(req, res, next){
-        res.render("new-product");
-    }
-
     getAddProduct(req, res, next){
-        res.render("new-product", {
+        return res.render("new-product", {
             errorMessage : null,
         });
     }
 
     postAddProduct(req,res, next){
-        console.log(req.body);
         ProductModel.addProducts(req.body);
         let products = ProductModel.getProducts();
-        return res.render("products", { products });
+        res.render("products", { products });
     }
 
     getUpdateProductView(req,res,next){
@@ -33,15 +28,27 @@ export default class ProductController{
                 product : productFound,
                 errorMessage : null,
             });
-        }else{
+        }
+        else{
             res.status(401).send("Product not found");
         }
     }
 
-    postUpdateProductView(req, res, next){
+    postUpdateProductView(req, res){
         ProductModel.updateProduct(req.body);
         let products = ProductModel.getProducts();
         res.render("products", {products});
 
+    }
+
+    deleteProduct(req, res){
+        const id = req.params.id;
+        const productFound = ProductModel.getById(id);
+        if(!productFound){
+            return res.status(401).send("product not found"); 
+        }
+        ProductModel.deleteProduct(id);
+        let products = ProductModel.getProducts(); 
+        res.render("products", {products});
     }
 }

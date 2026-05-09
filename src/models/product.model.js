@@ -9,7 +9,7 @@ export default class ProductModel{
     }
 
     static getProducts(){
-        return products;
+      return products;
     }
 
     static getById(id){
@@ -42,6 +42,12 @@ export default class ProductModel{
         );
       }
     }
+
+    static deleteProduct(id){
+      const index = products.findIndex((p)=> p.id == id);
+      products.splice(index, 1);
+    }
+
   }
 
 var products = [
