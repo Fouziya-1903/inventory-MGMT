@@ -10,6 +10,7 @@ const server = express();
 server.use(ejsLayouts);
 server.use(express.json());
 server.use(express.urlencoded({extended : true}));
+server.use(express.static("public"));
 
 
 //View engine
@@ -23,13 +24,13 @@ const productController = new ProductController();
 server.get("/", productController.getProducts);
 server.get("/new-product", productController.getAddProduct);
 server.get('/update-product/:id',productController.getUpdateProductView); 
-server.get('/delete-product/:id',productController.deleteProduct);
+server.post('/delete-product/:id',productController.deleteProduct);
 
 server.post("/",validateRequest,productController.postAddProduct);
 server.post('/update-product', productController.postUpdateProductView);
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);
 
-// app.use(express.static(path.join(__dirname, 'src', 'views')));
+// server.use(express.static(path.join(__dirname, 'src', 'views')));
 
 server.listen(3400);
