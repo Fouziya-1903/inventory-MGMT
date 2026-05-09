@@ -1,5 +1,6 @@
 import express, { urlencoded } from 'express';
 import ProductController from './src/controllers/product.controller.js';
+import UserController from './src/controllers/user.controller.js';
 import path from "path";
 import ejsLayouts from "express-ejs-layouts";
 import validateRequest from './src/middlewares/validation.middleware.js';
@@ -26,6 +27,9 @@ server.get("/", productController.getProducts);
 server.get("/new-product", productController.getAddProduct);
 server.get('/update-product/:id',productController.getUpdateProductView); 
 server.post('/delete-product/:id',productController.deleteProduct);
+
+const userController = new UserController();
+server.get("/register", userController.getRegister);
 
 server.post("/", uploadFile.single('imageUrl'), validateRequest, productController.postAddProduct);
 server.post('/update-product', uploadFile.single('imageUrl'), productController.postUpdateProductView);
