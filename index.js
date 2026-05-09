@@ -3,7 +3,7 @@ import ProductController from './src/controllers/product.controller.js';
 import UserController from './src/controllers/user.controller.js';
 import path from "path";
 import ejsLayouts from "express-ejs-layouts";
-import validateRequest from './src/middlewares/validation.middleware.js';
+import {validateRequest , validateUserRequest} from './src/middlewares/validation.middleware.js';
 import { uploadFile } from './src/middlewares/file-upload.middleware.js';
 // import { fileURLToPath } from 'url';
 
@@ -27,12 +27,16 @@ server.get("/", productController.getProducts);
 server.get("/new-product", productController.getAddProduct);
 server.get('/update-product/:id',productController.getUpdateProductView); 
 server.post('/delete-product/:id',productController.deleteProduct);
+server.post("/", uploadFile.single('imageUrl'), validateRequest, productController.postAddProduct);
+server.post('/update-product', uploadFile.single('imageUrl'), productController.postUpdateProductView);
 
 const userController = new UserController();
 server.get("/register", userController.getRegister);
+server.get('/login', userController.getLogin);
+server.post('/register', validateUserRequest, userController.postRegister);
+server.post('/login',validateUserRequest, userController.postLogin);
 
-server.post("/", uploadFile.single('imageUrl'), validateRequest, productController.postAddProduct);
-server.post('/update-product', uploadFile.single('imageUrl'), productController.postUpdateProductView);
+
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);
 
