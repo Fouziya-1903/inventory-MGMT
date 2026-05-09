@@ -16,13 +16,13 @@ export default class ProductModel{
       return products.find((p)=> p.id == id);
     }
     
-    static addProducts(productObj){
+    static addProducts(name, desc, price, imageUrl){
       let newProduct = new ProductModel(
         products.length +1,
-        productObj.name,
-        productObj.desc,
-        productObj.price,
-        productObj.imageUrl,
+        name,
+        desc,
+        price,
+        imageUrl,
       );
       products.push(newProduct);
     }

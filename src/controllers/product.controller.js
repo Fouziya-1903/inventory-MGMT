@@ -14,13 +14,22 @@ export default class ProductController{
         });
     }
 
-    postAddProduct(req,res, next){
-        ProductModel.addProducts(req.body);
+    postAddProduct(req,res){
+        if(!req.file){
+            return res.render("new-product",{
+                errorMessage: "Image is required",
+                productData: req.body
+            });
+        }
+        const {name, desc, price} = req.body;
+        const imageUrl = '/images/'+ req.file.filename;
+        ProductModel.addProducts(name, desc, price, imageUrl);
         let products = ProductModel.getProducts();
-        res.render("products", { products });
+        res.redirect("/");
     }
 
     getUpdateProductView(req,res,next){
+
         const id = req.params.id; 
         const productFound = ProductModel.getById(id);
         if(productFound){
@@ -35,9 +44,17 @@ export default class ProductController{
     }
 
     postUpdateProductView(req, res){
-        ProductModel.updateProduct(req.body);
-        let products = ProductModel.getProducts();
-        res.render("products", {products});
+        const{id, name,desc, price, oldImageUrl} = req.body;
+        const finalImageUrl = req.file ? ("/images/" + req.file.filename) : oldImageUrl;
+        const updatedObj = {
+            id: id,
+            name : name,
+            desc: desc,
+            price: price,
+            imageUrl: finalImageUrl
+        };
+        ProductModel.updateProduct(updatedObj);
+        res.redirect("/");
 
     }
 
@@ -48,7 +65,6 @@ export default class ProductController{
             return res.status(401).send("product not found"); 
         }
         ProductModel.deleteProduct(id);
-        let products = ProductModel.getProducts(); 
-        res.render("products", {products});
+        res.redirect("/");
     }
 }
