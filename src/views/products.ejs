@@ -7,18 +7,22 @@
             <th scope="col">Description</th>
             <th scope="col">Price</th>
             <th scope="col">Image</th>
+            <th scope="col">Actions</th>
         </tr>
     </thead>
     <tbody>
         <!-- The loop is used to take the input and then display the table of the content -->
         <% products.forEach(product =>{ %>
             <tr>
-            <th><%=product.id %></th>
+            <th scope="row"><%=product.id %></th>
             <td><%=product.name %></td>
             <td><%=product.desc %> </td>
-            <td ><%=product.price %></td>
+            <td><%=product.price %></td>
             <td>
-                <img src="<%=product.imageUrl %>" style = "width: : 50px;"/>
+                <img src="<%=product.imageUrl %>" style = "width: : 50px"/>
+            </td>
+            <td>
+                <a href = "/update-product/<%=product.id %>" class = "btn btn-warning">Update</a>
             </td>
             </tr>
         <% }) %>     

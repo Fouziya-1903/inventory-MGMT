@@ -19,7 +19,9 @@ server.use(express.urlencoded({extended : true}));
 const productController = new ProductController();
 server.get("/", productController.getProducts);
 server.get("/newForm", productController.getAddForm);
-server.get("/addProduct", productController.getAddProduct);
+server.get("/new-product", productController.getAddProduct);
+server.get('/update-product/:id',productController.getUpdateProductView); 
+server.post('/update-product', productController.postUpdateProductView);
 server.post("/",validateRequest,productController.postAddProduct);
 server.use(express.static('src/views'));
 

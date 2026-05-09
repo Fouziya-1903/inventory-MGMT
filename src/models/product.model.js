@@ -8,8 +8,12 @@ export default class ProductModel{
         this.imageUrl = _imageUrl;
     }
 
-    static get(){
+    static getProducts(){
         return products;
+    }
+
+    static getById(id){
+      return products.find((p)=> p.id == id);
     }
     
     static addProducts(productObj){
@@ -22,13 +26,29 @@ export default class ProductModel{
       );
       products.push(newProduct);
     }
-}
+
+    static updateProduct(productObj) {
+    // Use Number() to ensure we are comparing numbers to numbers
+      const index = products.findIndex((p) => p.id == Number(productObj.id));
+      
+      if (index !== -1) {
+          // Overwrite the existing slot with the new data
+        products[index] = new ProductModel(
+          Number(productObj.id), // Keep ID as a Number
+          productObj.name,
+          productObj.desc,
+          productObj.price,
+          productObj.imageUrl
+        );
+      }
+    }
+  }
 
 var products = [
     new ProductModel(
       1,
       'Product 1',
-      'Atomic H abits',
+      'Atomic Habits',
       19.99,
       'https://m.media-amazon.com/images/I/51-nXsSRfZL._SX328_BO1,204,203,200_.jpg',
     ),
