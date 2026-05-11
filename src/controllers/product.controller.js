@@ -25,7 +25,6 @@ export default class ProductController{
         const {name, desc, price} = req.body;
         const imageUrl = '/images/'+ req.file.filename;
         ProductModel.addProducts(name, desc, price, imageUrl);
-        let products = ProductModel.getProducts();
         res.redirect("/");
     }
 
