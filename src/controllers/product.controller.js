@@ -3,7 +3,7 @@ import ProductModel from "../models/product.model.js";
 export default class ProductController{
     getProducts(req,res, next){
         let products = ProductModel.getProducts();
-        return res.render("products", { products }) 
+        return res.render("products", { products, userEmail: req.session.userEmail }); 
         
         // return res.sendFile(path.join(path.resolve(), "src", "views", "products.ejs"));
     }
@@ -18,7 +18,8 @@ export default class ProductController{
         if(!req.file){
             return res.render("new-product",{
                 errorMessage: "Image is required",
-                productData: req.body
+                productData: req.body,
+                userEmail: req.session.userEmail 
             });
         }
         const {name, desc, price} = req.body;
@@ -36,6 +37,7 @@ export default class ProductController{
             res.render("update-product",{
                 product : productFound,
                 errorMessage : null,
+                userEmail: req.session.userEmail 
             });
         }
         else{

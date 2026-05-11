@@ -7,6 +7,8 @@ import {validateRequest , validateUserRequest} from './src/middlewares/validatio
 import { uploadFile } from './src/middlewares/file-upload.middleware.js';
 import session from 'express-session';
 import { auth } from './src/middlewares/auth.middleware.js';
+import cookieParser from 'cookie-parser';
+import { lastVisit } from './src/middlewares/lastVisit.middleware.js';
 // import { fileURLToPath } from 'url';
 
 const server = express();
@@ -22,6 +24,8 @@ server.use(session({
     cookie: {secure: false},
 })
 );
+server.use(cookieParser());
+// server.use(lastVisit);
 
 //View engine
 server.set("view engine", "ejs");
@@ -31,7 +35,7 @@ server.set("views", path.join(path.resolve(),"src","views"));
 
 //create an instance of the class and should usually be on the top
 const productController = new ProductController();
-server.get("/", auth, productController.getProducts);
+server.get("/", auth, lastVisit, productController.getProducts);
 server.get("/new-product", auth, productController.getAddProduct);
 server.get('/update-product/:id', auth, productController.getUpdateProductView); 
 server.post('/delete-product/:id', auth, productController.deleteProduct);
@@ -43,7 +47,7 @@ server.get("/register", userController.getRegister);
 server.get('/login', userController.getLogin);
 server.post('/register', validateUserRequest, userController.postRegister);
 server.post('/login',validateUserRequest, userController.postLogin);
-
+server.get('/logout', userController.logout);
 
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);
